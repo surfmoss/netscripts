@@ -1,0 +1,164 @@
+Use Event Manager with a CRON JOB to backup config to TFTP in IOS
+
+* EEM Applet sends IOS backup to a Linux host via TFTP:
+
+<pre>
+event manager applet Backup
+ event timer cron cron-entry "20 02 * * *"
+ action 1.0 cli command "enable"
+ action 2.0 cli command "copy run start"
+ action 3.0 cli command "copy running-config tftp://10.0.0.10/backupfile"
+</pre>
+
+* This CRON job (change.sh) runs everyday at 2020L (0220 GMT):
+
+<pre>
+30 02 * * * /home/tftpdir/change.sh
+</pre>
+
+* This is the script that copies the file that was tftp'd into the Linux host from the switch and places it in another directory with DTG stamp:
+<pre>
+#!/bin/bash          
+cp /home/tftpdir/backupfile /home/tftpdir/NetBackups/Switch-A/Switch-A-$(date +%Y%m%d-%T)-GMT
+</pre>
+
+'''The Linux cron job should run during a time period that is after the EEM Cron job in the switch.  The backupfile will be overwritten everyday then copied to a new directory.'''
+-----------------------------------------------
+Apply a security baseline to a Cisco switch with EEM
+
+
+
+* '''Event Manager script is broken down into 3 applets.  EEM applets have a size limitation of 1024Kb per applet'''
+
+
+== Build event manager applet Baseline1.0 ==
+
+<pre>
+Conf t
+(config)# event manager applet Baseline1.0
+(config-applet)#
+  action 1.0 cli conf t
+  action 1.1 cli feature port-security
+  action 1.2 cli feature ssh
+  action 1.3 cli feature dot1x
+  action 1.4 cli feature fex
+  action 1.5 cli feature interface-vlan
+  action 1.6 cli feature lacp
+  action 1.7 cli feature tacacs+
+  action 1.8 cli feature vpc
+  action 1.9 cli feature vtp
+  action 2.0 cli no feature telnet
+  action 2.1 cli conf t
+  action 2.2 cli vlan 2999
+  action 2.3 cli name unused_ports
+  action 2.4 cli int e1/1-32
+  action 2.5 cli switchport access vlan 2999
+  action 2.6 cli shut
+  action 2.7 cli description --------
+  action 2.8 cli spanning-tree bpduguard enable
+  action 2.9 cli spanning-tree guard root
+  action 3.0 cli spanning-tree bpdufilter enable
+  action 3.1 cli switchport port-security
+  action 3.2 cli switchport port-security mac-address sticky
+  action 3.3 cli switchport port-security max 1
+  action 3.4 cli crypto key generate rsa modulus 1024
+  action 3.5 cli ssh key rsa 1024 force
+</pre>
+
+== Build event manager applet Baseline2.0 ==
+
+<pre>
+Conf t
+(config)# event manager applet Baseline2.0
+(config-applet)#
+  action 1.0 cli conf t
+  action 1.1 cli ssh login-attempts 3
+  action 1.2 cli ip access-list 10
+  action 1.3 cli permit ip 192.168.1.0/24 any log
+  action 1.4 cli deny ip any any log
+  action 1.5 cli line vty
+  action 1.6 cli access-class 10 in
+  action 1.7 cli no snmp-server protocol enable
+  action 1.8 cli username admin role network-admin password chang3m3!
+  action 1.9 cli interface loopback 0
+  action 2.0 cli ip address 10.1.1.254 255.255.255.255
+  action 2.1 cli no shut
+  action 2.2 cli logging source-interface loopback 0
+  action 2.3 cli ip access-list mgmt
+  action 2.4 cli permit ip 192.168.1.0/24 any log
+  action 2.5 cli permit ip 10.1.1.0/24 any log
+  action 2.6 cli permit ip 192.168.13.0/24 any log
+  action 2.7 cli deny ip any any log
+  action 2.8 cli interface mgmt 0
+  action 2.9 cli ip access-group mgmt in
+</pre>
+
+== Build event manager applet Baseline3.0 ==
+
+<pre>
+Conf t
+(config)# event manager applet Baseline3.0
+(config-applet)#
+  action 1.0 cli conf t
+  action 1.1 cli username emergency role network-admin password chang3m3! (password should be modified in 
+the script or changed soon after running the script).
+  action 1.2 cli no ip domain-lookup
+  action 1.3 cli ip tcp synwait-time 10
+  action 1.4 cli no feature http-server
+  action 1.5 cli line console
+  action 1.6 cli exec-timeout 10
+  action 1.7 cli line vty
+  action 1.8 cli exec-timeout 10
+  action 1.9 cli ntp server 192.168.13.254 prefer use-vrf management
+  action 2.0 cli ntp server 192.168.13.253 prefer use-vrf management
+  action 2.1 cli ntp source-interface loopback 0
+  action 2.2 cli ntp authenticate
+  action 2.3 cli logging server 192.168.13.252 6 use-vrf management facility syslog
+  action 2.4 cli feature scp-server
+  action 2.5 cli vlan 900
+  action 2.6 cli name native_vlan
+  action 2.7 cli no shut
+</pre>
+
+== Apply EEM applet to switch ==
+*in exec mode run the following 3 commands to apply the Baseline
+<pre>
+event manager run Baseline1.0
+event manager run Baseline2.0
+event manager run Baseline3.0
+</pre>
+
+== Device hardening results ==
+
+The EEM applets have been tested for configuration dependencies (i.e you can't configure port-security on an interface if the feature isn't turned on first).  Once the Baseline applets have been applied to the switch the following device hardening configurations have been applied:
+* Port security feature is enabled
+* SSH feature is enabled
+* DOT1X feature is enabled
+* TACACS feaure is enabled
+* Telnet feature is disabled
+* A vlan 2999 is created to dump all unused ports into it
+* all ports are initially shut
+* port-security is applied to all ports
+* default bpduguard, guard root, bpdufilter configs are applied to each port
+* an RSA key is created and forced to use modulus 1024
+* ssh max login attemtps are configured to 3
+* an access list 10 is created to initially only allow 192.168.1.0/24 (assuming that is the inband network the device will temporarily be managed on) and deny everything else
+* The access list 10 is then applied to line vty
+* SNMP is disabled
+* An admin user account is created with proper privileges whose password should be changed once the Baseline script is applied
+* A logging server is designated
+* A loopback interface is created and given a default 10.1.1.254 address that should be changed once the device goes into production.
+* The loopback 0 is set to be the logging source
+* A mgmt. access list is created
+* The mgmt. access list initially permits 192.168.1.0/24 (inband mgmt.), 10.1.1.0/24 (loopback subnet), 192.168.13.0/24 (NTP/SYSLOG), everything else is denied.
+* The access list is applied to the mgmt. port.
+* An emergency account local is created with proper privileges (whose password should be modified in the script or changed soon after running the script).
+* "No ip domain lookup" command is configured
+* "ip tcp synwait-time" is configured to 10
+* line console is set to exec-timeout to 10
+* line vty is set to exec-timeout to 10
+* Two NTP servers are designated
+* NTP is set to use loopsback0 as its source
+* NTP authenticate command is applied
+* SCP server is enabled
+* VLAN 800 is created and designated as a native vlan
