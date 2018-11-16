@@ -1,0 +1,21 @@
+econds input rate 362770552 bits/sec, 49818 packets/sec
+  30 seconds output rate 739139336 bits/sec, 75474 packets/sec
+    input rate 380.30 Mbps, 59.44 Kpps; output rate 881.06 Mbps, 94.21 Kpps
+
+23:59:51.805 UTC Mon Oct 16 2017
+
+  30 seconds input rate 362770552 bits/sec, 49818 packets/sec
+  30 seconds output rate 739139336 bits/sec, 75474 packets/sec
+    input rate 380.30 Mbps, 59.44 Kpps; output rate 881.06 Mbps, 94.21 Kpps
+
+23:59:51.947 UTC Mon Oct 16 2017
+
+  30 seconds input rate 362770552 bits/sec, 49818 packets/sec
+  30 seconds output rate 739139336 bits/sec, 75474 packets/sec
+    input rate 380.30 Mbps, 59.44 Kpps; output rate 881.06 Mbps, 94.21 Kpps
+
+23:59:52.101 UTC Mon Oct 16 2017
+
+  30 seconds input rate 362770552 bits/sec, 49818 packets/sec
+  30 seconds output rate 739139336 bits/sec, 75474 packets/sec
+    input rate 380.30 Mbps, 59.44 Kpps; output rate 881.06 Mbps, 94.21 Kpps
