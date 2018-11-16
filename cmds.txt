@@ -1,0 +1,6 @@
+git add hostsub.sh
+git remove -n /home/mbubu/file
+git commit -m "nslookupsubnet"
+git push origin master
+
+git remote set-url origin git@github.com:surfmoss/netscripts.git
