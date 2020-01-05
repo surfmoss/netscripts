@@ -1,0 +1,21 @@
+---
+- name: VERIFY ACL SETTINGS
+  hosts: nxos
+  connection: network_cli
+  gather_facts: no
+  
+  tasks:
+
+  - name: CHECK REACHABILITY
+    nxos_facts:
+
+  - name: CHECKING ACL
+    nxos_command:
+      commands:
+        - show ip access-list MGMT
+        - show ip access-list VTY
+    register: result
+
+  - debug:
+      var: result.stdout
+

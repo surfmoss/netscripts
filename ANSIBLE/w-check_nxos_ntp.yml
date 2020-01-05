@@ -1,0 +1,20 @@
+---
+- name: VERIFY NTP SETTINGS
+  hosts: nxos
+  connection: network_cli
+  gather_facts: no
+  
+  tasks:
+
+  - name: CHECK REACHABILITY
+    nxos_facts:
+
+  - name: CHECKING NTP CONFIGURATIONS
+    nxos_command:
+      commands:
+        - show run | i ntp
+    register: result
+
+  - debug:
+      var: result.stdout
+

@@ -1,0 +1,20 @@
+---
+- name: VERIFY AAA SETTINGS
+  hosts: ios
+  connection: network_cli
+  gather_facts: no
+  
+  tasks:
+
+  - name: CHECK REACHABILITY
+    ios_facts:
+
+  - name: CHECKING AAA CONFIGURATIONS
+    ios_command:
+      commands:
+        - show run | i aaa authorization exec default group ISE-tac local
+    register: result
+
+  - debug:
+      var: result.stdout
+

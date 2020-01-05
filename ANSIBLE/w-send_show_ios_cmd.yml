@@ -1,0 +1,20 @@
+---
+- name: SEND CMD TO IOS DEVICE
+  hosts: ios
+  connection: network_cli
+  gather_facts: no
+  
+  tasks:
+
+  - name: GATHER ROUTER FACTS
+    ios_facts:
+
+  - name: SEND IOS CMD
+    ios_command:
+      commands:
+        - sh int status | include connected
+    register: result
+
+  - debug:
+      var: result.stdout
+

@@ -1,0 +1,395 @@
+---
+- name: VERIFY NTP SETTINGS
+  hosts: ios
+  connection: network_cli
+  gather_facts: no
+  
+  tasks:
+
+  - name: CHECK REACHABILITY
+    ios_facts:
+
+  - name: V-3012 NET0230 device cannot be accessed without password
+    ios_command:
+      commands:
+        - sh run | i aaa authentication
+    register: result
+
+  - debug:
+      var: result.stdout
+
+  - name: V-3013 STIG ID NET0340 banner exists
+    ios_command:
+      commands:
+        - sh banner login
+    register: result
+
+  - debug:
+      var: result.stdout
+
+  - name: V-3014 STIG ID NET1639 connection timeout is 10 min
+    ios_command:
+      commands:
+        - sh run all | i exec-timeout
+    register: result
+
+  - debug:
+      var: result.stdout
+
+  - name: V-3020 STIG ID NET0820 domain lookup is disabled
+    ios_command:
+      commands:
+        - sh run | i no ip domain
+    register: result
+
+  - debug:
+      var: result.stdout
+  
+  - name: V-3021 STIG ID NET0890 SNMP explicitly permitted at ACL
+    ios_command:
+      commands:
+        - sh ip access-lists MGMT
+    register: result
+  - debug:
+      var: result.stdout  
+
+  - name: V-3043 STIG ID NET1675 SNMP group configured
+    ios_command:
+      commands:
+        - show snmp group | i  NETGROUP
+    register: result
+  - debug:
+      var: result.stdout
+ 
+  - name: V-3062 STIG ID NET0600 passwords are not in clear text
+    ios_command:
+      commands:
+        - sh run | i password-
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-3069 STIG ID NET1638 unsecure protocols are disabled
+    ios_command:
+      commands:
+        - sh run all | i ftp
+        - sh run | i no ip http
+        - sh run | i transport input ssh
+        - sh run | i ip ssh version 2
+        - sh run all | i dh min
+        - sh run | i scp
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-3070 STIG ID NET1640 logging configured on ACLS
+    ios_command:
+      commands:
+        - sh ip access-lists MGMT
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-3072 STIG ID NET1030 check running and startup configs match
+    ios_command:
+      commands:
+        - sh run | i configuration change
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-3079 STIG ID NET0730 finger service disabled
+    ios_command:
+      commands:
+        - sh run all | i finger
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-3085 STIG ID NET0740 Ensure http is disabled
+    ios_command:
+      commands:
+        - sh run | i no ip http
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-3160  STIG ID NET0700 Check current IOSXE version
+    ios_command:
+      commands:
+        - sh ver | s BUNDLE
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-3175 STIG ID NET1636 Authentication is used for VTY access
+    ios_command:
+      commands:
+        - sh run | i aaa authentication
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-3196 STIG ID NET1660 SNMPV3 is being used
+    ios_command:
+      commands:
+        - sh run | i aaa authentication
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-3966 STIG ID NET0440 single local account of last resort defined
+    ios_command:
+      commands:
+        - sh run | i admin
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-15434 STIG ID NET0441 emergency account has appropriate authorization level
+    ios_command:
+      commands:
+        - sh run | i admin
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-3967 STIG ID NET1624 console timeout is 10 min
+    ios_command:
+      commands:
+        - sh run all | i exec-timeout
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-3969 STIG ID NET0894 SNMP explicitly permitted
+    ios_command:
+      commands:
+        - sh ip access-lists MGMT
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-17832 STIG ID NET1003 Mgmt IPs in ACL are for mgmt
+    ios_command:
+      commands:
+        - sh ip access-lists MGMT
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-3971 STIG ID NET-VLAN-004 VLAN 1 does not have active ports
+    ios_command:
+      commands:
+        - sh vlan name default | i active
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-3972 STIG ID NET-VLAN-005 Vlan 1 does not traverse trunks
+    ios_command:
+      commands:
+        - sh int trunk | i '1,'
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-3973 STIG ID NET-VLAN-002 disabled ports are not assigned to VLAN 1
+    ios_command:
+      commands:
+        - sh vlan id 999 | s active
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-3984 STIG ID NET-VLAN-009 switchports not assigned to native VLAN
+    ios_command:
+      commands:
+        - sh int status | i connected
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-4582 STIG ID NET1623 console requires authentication
+    ios_command:
+      commands:
+        - sh run | i aaa authentication
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-4584 STIG ID NET1021 logging level 6
+    ios_command:
+      commands:
+        - sh logging | i Trap logging
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-5611 STIG ID NET1637 explicit administrative access via ACL
+    ios_command:
+      commands:
+        - sh ip access-lists MGMT
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-5612 STIG ID NET1645 ssh time-out is set to 60
+    ios_command:
+      commands:
+        - sh run all | i ssh time-out
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-5613 STIG ID NET1646 ssh retries set to 3
+    ios_command:
+      commands:
+        - sh run all | i ip ssh authentication-retries
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-5614 STIG ID NET0722 service pad disabled
+    ios_command:
+      commands:
+        - sh run all | i service pad
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-5615 STIG ID NET0724 service tcp-keepalives-in enabled
+    ios_command:
+      commands:
+        - sh run | i service tcp-keepalives
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-5622 STIG ID NET-VLAN-008 Default native vlan is not trunked
+    ios_command:
+      commands:
+        - sh int trunk | i trunking
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-5628 STIG ID NET-VLAN-006 Vlan 1 is not used for management
+    ios_command:
+      commands:
+        - sh vlan name default | i active
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-5646 STIG ID NET0965 synwait-time set to 10
+    ios_command:
+      commands:
+        - sh run | i synwait-time
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-7011 STIG ID NET1629 ensure aux has no exec configured
+    ios_command:
+      commands:
+        - sh run | section aux
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-14669 STIG ID NET0744 ensure BSD r command services are disabled
+    ios_command:
+      commands:
+        - sh run all | i 'rsh'
+        - sh run all | i 'rlogin'
+        - sh run all | i 'rdump'
+        - sh run all | i 'rcp'
+        - sh run all | i 'rrestore'
+        - sh run all | i 'rdist'
+        - sh run all | i 'rcmd'
+        - sh run all | i 'bsd'
+        - sh run all | i 'BSD'
+        - sh run all | i 'BSDr'
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-14671 and V-23747 NET0812 and NET0813 verify ntp servers and authentication is configured
+    ios_command:
+      commands:
+        - sh run | i ntp authenticate
+        - sh run | i ntp trusted-key
+        - sh run | i ntp server
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-14717 STIG ID NET1647 verify SSHv2 is configured
+    ios_command:
+      commands:
+        - sh run | i ip ssh version 2
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-15432 STIG ID NET0433 verify 2 aaa servers defined
+    ios_command:
+      commands:
+        - sh run | s aaa group
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-18565 STIG ID NET-NAC-032 ports set to shutdown upon violation
+    ios_command:
+      commands:
+        - show port-security | s Shutdown
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-18566 STIG ID NET-NAC-031 port-security set to 1
+    ios_command:
+      commands:
+        - show run | i port-security max
+    register: result
+  - debug:
+      var: result.stdout
+
+  - name: V-28784 STIG ID NET0405 call-home service disabled
+    ios_command:
+      commands:
+        - sh run all | i service call-home
+    register: result
+  - debug:
+      var: result.stdout
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

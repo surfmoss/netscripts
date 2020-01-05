@@ -1,0 +1,21 @@
+---
+- name: CHECK IOS VERSION
+  hosts: nxos
+  connection: network_cli
+  gather_facts: no
+  
+  tasks:
+  
+  - name: GATHER ROUTER FACTS
+    nxos_facts:
+      
+  - name: CHECKING MODEL
+    nxos_command:
+      commands:  
+        - sh int status | i connected
+    register: output
+  
+  - debug:
+      var: output.stdout
+        
+

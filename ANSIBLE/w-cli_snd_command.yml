@@ -1,0 +1,14 @@
+---
+- name: RUN COMMAND AND PRINT TO TERMINAL WINDOW
+  hosts: abios
+  gather_facts: false
+
+  tasks:
+    
+  - name: RUN SHOW COMMAND
+    cli_command:
+      command: show ip int br | i Vlan14
+    register: result
+
+  - debug:
+      var: result.stdout

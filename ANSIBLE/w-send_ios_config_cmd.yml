@@ -1,0 +1,23 @@
+---
+- name: SEND CMD TO IOS DEVICE
+  hosts: ios
+  connection: network_cli
+  gather_facts: no
+  
+  tasks:
+
+  - name: GATHER ROUTER FACTS
+    ios_facts:
+
+  - name: SEND IOS CMD
+    ios_command:
+      commands:
+        - conf t
+        - line vty 0 15
+        - privilege level 15
+        - do show run | i privilege level 15
+    register: result
+
+  - debug:
+      var: result.stdout
+

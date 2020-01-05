@@ -1,0 +1,30 @@
+---
+- name: CHANGE IOS ACL SETTINGS
+  hosts: ios
+  connection: network_cli
+  gather_facts: no
+  
+  tasks:
+
+  - name: CHECK REACHABILITY
+    ios_facts:
+
+  - name: CHANGING ACL
+    ios_command:
+      commands:
+        - conf t
+        - ip access-list extended MGMT
+        - 9 permit ip 152.80.120.128 0.0.0.15 any log
+        - ip access-list resequence MGMT 10 10
+        - ip access-list standard VTY
+        - 9 permit 152.80.120.128 0.0.0.15 log
+        - ip access-list resequence VTY 10 10
+        - end
+        - wr
+        - sh ip access-list MGMT
+        - sh ip access-list VTY
+    register: result
+
+  - debug:
+      var: result.stdout
+

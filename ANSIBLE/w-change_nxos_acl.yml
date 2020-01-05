@@ -1,0 +1,27 @@
+---
+- name: CHANGE NXOS ACL SETTINGS
+  hosts: nxos
+  connection: network_cli
+  gather_facts: no
+  
+  tasks:
+
+  - name: CHECK REACHABILITY
+    nxos_facts:
+
+  - name: CHANGING ACL
+    nxos_command:
+      commands:
+        - conf t
+        - ip access-list MGMT
+        - 9 permit ip 152.80.120.128/28 any log
+        - ip access-list VTY
+        - 9 permit ip 152.80.120.128/28 any log
+        - wr
+        - sh ip access-list MGMT
+        - sh ip access-list VTY
+    register: result
+
+  - debug:
+      var: result.stdout
+

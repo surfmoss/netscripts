@@ -1,0 +1,22 @@
+---
+- name: SCP testfile
+  hosts: U-MRY700-ALPHA-R4U41-3650S1.fnmoc.navy.mil
+  connection: network_cli
+  gather_facts: no
+  
+  tasks:
+                
+  - name: GATHER ROUTER FACTS
+    ios_facts:
+
+  - name: COPY TESTFILE
+    command: "scp testfile buenrosm@{{inventory_hostname}}:recently_sent"
+
+  - name: SHOW DIR
+    ios_command:
+      commands:
+        - dir | i recent
+    register: results
+
+  - debug:
+      var: results.stdout

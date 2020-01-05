@@ -1,0 +1,18 @@
+---
+- name: CHECK IOS VERSION
+  hosts: asa
+  connection: network_cli
+  gather_facts: no
+  
+  tasks:
+  
+  - name: Show command on ASA
+    asa_command:
+      commands:  
+        - sh ver
+    register: output
+  
+  - debug:
+      var: output.stdout
+        
+

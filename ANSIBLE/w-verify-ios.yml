@@ -1,0 +1,26 @@
+---
+- name: VERIFY OS COMPLIANCE
+  hosts: ios
+  connection: network_cli
+  gather_facts: no
+  
+  vars:
+    compliant_ios_version: 16.06.05
+
+  tasks:
+                
+  - name: GATHER ROUTER FACTS
+    ios_facts:
+
+  - name: ASSERT THAT THE IOS VERSION IS CORRECT
+    assert:
+      that:
+        - compliant_ios_version == ansible_net_version
+
+  - debug:
+      msg:
+      - "Host name: {{ ansible_net_hostname }}"
+      - "Model: {{ ansible_net_model }}"
+      - "Version: {{ ansible_net_version }}"
+        
+

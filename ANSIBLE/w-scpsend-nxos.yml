@@ -1,0 +1,22 @@
+---
+- name: SCP testfile
+  hosts: gw700c-14.fnmoc.navy.mil
+  connection: network_cli
+  gather_facts: no
+  
+  tasks:
+                
+  - name: GATHER ROUTER FACTS
+    nxos_facts:
+
+  - name: COPY TESTFILE
+    command: "scp testfile {{inventory_hostname}}:"
+
+  - name: SHOW DIR
+    nxos_command:
+      commands:
+        - dir
+    register: results
+
+  - debug:
+      var: results.stdout

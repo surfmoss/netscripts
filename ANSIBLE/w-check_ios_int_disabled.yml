@@ -1,0 +1,21 @@
+---
+- name: CHECK IOS VERSION
+  hosts: opsios
+  connection: network_cli
+  gather_facts: no
+  
+  tasks:
+  
+  - name: GATHER ROUTER FACTS
+    ios_facts:
+      
+  - name: CHECKING MODEL
+    ios_command:
+      commands:  
+        - sh int status | i disabled
+    register: output
+  
+  - debug:
+      var: output.stdout
+        
+

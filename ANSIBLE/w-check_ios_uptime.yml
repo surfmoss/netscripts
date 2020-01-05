@@ -1,0 +1,21 @@
+---
+- name: CHECK IOS VERSION
+  hosts: ios
+  connection: network_cli
+  gather_facts: no
+  
+  tasks:
+  
+  - name: GATHER ROUTER FACTS
+    ios_facts:
+      
+  - name: CHECKING MODEL
+    ios_command:
+      commands:  
+        - sh ver | i uptime
+    register: output
+  
+  - debug:
+      var: output.stdout
+        
+

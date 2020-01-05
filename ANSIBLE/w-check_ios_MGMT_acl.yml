@@ -1,0 +1,20 @@
+---
+- name: VERIFY ACL SETTINGS
+  hosts: ios
+  connection: network_cli
+  gather_facts: no
+  
+  tasks:
+
+  - name: CHECK REACHABILITY
+    ios_facts:
+
+  - name: CHECKING ACL
+    ios_command:
+      commands:
+        - show ip access-list MGMT
+    register: result
+
+  - debug:
+      var: result.stdout
+
