@@ -1,0 +1,16 @@
+---
+- hosts: ios
+  gather_facts: true
+  connection: local
+
+  tasks:
+  - name: show run 
+    ios_command:
+      commands:
+      - show run 
+    register: config
+
+  - name: save output to backup folder 
+    copy: 
+      content: "{{ config.stdout[0] }}"
+      dest: "/home/buenrosm/N6ANS/backups/show_run_{{ inventory_hostname }}.txt"
