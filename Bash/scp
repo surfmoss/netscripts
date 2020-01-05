@@ -1,0 +1,4 @@
+#!/bin/bash
+for ip in 192.168.1.{123..129} ; {134..147} do
+ scp shrunfiletest mbubu@$ip:file1029 
+done
