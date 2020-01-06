@@ -10,7 +10,7 @@
     ios_facts:
 
   - name: COPY TESTFILE
-    command: "scp testfile buenrosm@{{inventory_hostname}}:recently_sent"
+    command: "scp testfile admin@{{inventory_hostname}}:recently_sent"
 
   - name: SHOW DIR
     ios_command:

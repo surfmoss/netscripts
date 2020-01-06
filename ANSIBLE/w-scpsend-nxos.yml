@@ -1,6 +1,6 @@
 ---
 - name: SCP testfile
-  hosts: gw700c-14.fnmoc.navy.mil
+  hosts: switch110
   connection: network_cli
   gather_facts: no
   

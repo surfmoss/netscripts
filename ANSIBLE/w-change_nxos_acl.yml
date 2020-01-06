@@ -14,9 +14,9 @@
       commands:
         - conf t
         - ip access-list MGMT
-        - 9 permit ip 152.80.120.128/28 any log
+        - 9 permit ip 192.168.2.128/28 any log
         - ip access-list VTY
-        - 9 permit ip 152.80.120.128/28 any log
+        - 9 permit ip 192.168.2.128/28 any log
         - wr
         - sh ip access-list MGMT
         - sh ip access-list VTY

@@ -1,6 +1,6 @@
 ---
 - name: SCP testfile
-  hosts: U-MRY700-ALPHA-R4U41-3650S1.fnmoc.navy.mil
+  hosts: switch100
   connection: network_cli
   gather_facts: no
   
@@ -10,7 +10,7 @@
     ios_facts:
 
   - name: COPY TESTFILE
-    command: "scp testfile buenrosm@{{inventory_hostname}}:recently_sent"
+    command: "scp testfile admin@{{inventory_hostname}}:recently_sent"
 
   - name: SHOW DIR
     ios_command:
