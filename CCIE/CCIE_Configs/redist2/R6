@@ -1,0 +1,131 @@
+!
+! Last configuration change at 16:46:49 UTC Mon Aug 28 2017
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname R6
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition MGMT_DO_NOT_CHANGE
+ !
+ address-family ipv4
+ exit-address-family
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+no ip domain lookup
+
+!
+!
+!
+ipv6 unicast-routing
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+multilink bundle-name authenticated
+!
+!
+!
+spanning-tree extend system-id
+!
+!
+redundancy
+ mode none
+!
+!
+!
+!
+!
+cdp run
+!
+ip tcp synwait-time 5
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 150.1.6.6 255.255.255.255
+ ipv6 address 2001:150:6:6::6/128
+ no shutdown
+!
+interface GigabitEthernet1
+ no ip address
+ negotiation auto
+ cdp enable
+ no shutdown
+!
+interface GigabitEthernet1.67
+ encapsulation dot1Q 67
+ ip address 155.1.67.6 255.255.255.0
+ ipv6 address 2001:155:1:67::6/64
+ no shutdown
+!
+interface GigabitEthernet1.146
+ encapsulation dot1Q 146
+ ip address 155.1.146.6 255.255.255.0
+ ipv6 address 2001:155:1:146::6/64
+ no shutdown
+!
+!
+!
+router eigrp 100
+ network 150.1.0.0
+ network 155.1.0.0
+!
+!
+!
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ logging synchronous
+ stopbits 1
+line vty 0 4
+ no login
+!
+!
+end

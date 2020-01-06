@@ -1,0 +1,142 @@
+
+!
+! Last configuration change at 04:00:52 UTC Fri Nov 7 2014
+enable
+conf t
+
+
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname R6
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition MGMT_DO_NOT_CHANGE
+ !
+ address-family ipv4
+ exit-address-family
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+no ip domain lookup
+
+!
+!
+!
+ipv6 unicast-routing
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+multilink bundle-name authenticated
+!
+!
+!
+spanning-tree extend system-id
+!
+!
+redundancy
+ mode none
+!
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+! 
+! 
+!
+interface Loopback0
+ ip address 6.6.6.6 255.255.255.255
+ ipv6 address 2001:6:6:6::6/128
+ no shutdown
+!
+interface GigabitEthernet1
+ negotiation auto
+ no shutdown
+!
+interface GigabitEthernet1.46
+ encapsulation dot1Q 46
+ ip address 156.1.46.6 255.255.255.0
+ ipv6 address 2001:156:1:46::6/64
+ ip access-group 100 in
+ no shutdown
+!
+interface GigabitEthernet1.56
+ encapsulation dot1Q 56
+ ip address 156.1.56.6 255.255.255.0
+ ipv6 address 2001:156:1:56::6/64
+ no shutdown
+!
+interface GigabitEthernet1.68
+ encapsulation dot1Q 68
+ ip address 156.1.68.6 255.255.255.0
+ ipv6 address 2001:156:1:68::6/64
+ no shutdown
+!
+interface GigabitEthernet1.146
+ encapsulation dot1Q 146
+ ip address 156.1.146.6 255.255.255.0
+ ipv6 address 2001:156:1:146::6/64
+ no shutdown
+!
+!
+access-list 100 deny ip any any
+
+!
+!
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ stopbits 1
+line vty 0 4
+ privilege level 15
+ no login
+!
+!
+end
