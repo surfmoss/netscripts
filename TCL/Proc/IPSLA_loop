@@ -1,0 +1,56 @@
+* The purpose of this TCL script is to get a continuous output of an IP SLA summary command:
+
+*The IP SLAs are built for ICMP echo and path-jitter:
+
+'''ICMP echo path-jitter IP SLA'''
+<pre>
+proc SLA {x} {
+ for {set n 1 } {$n<=$x} {incr n 0} {
+    "sh ip sla summary | i $n           icmp-echo"
+    "show clock"
+ }
+}
+
+SLA 1
+</pre>
+
+'''ICMP echo output:'''
+<pre>
+21:33:50.719 UTC Mon Jan 6 2020*1           icmp-echo   192.168.1.2   RTT=76      OK          2 seconds ago
+21:33:51.124 UTC Mon Jan 6 2020*1           icmp-echo   192.168.1.2   RTT=76      OK          3 seconds ago
+21:33:51.529 UTC Mon Jan 6 2020*1           icmp-echo   192.168.1.2   RTT=76      OK          3 seconds ago
+21:33:51.931 UTC Mon Jan 6 2020*1           icmp-echo   192.168.1.2   RTT=76      OK          4 seconds ago
+21:33:52.335 UTC Mon Jan 6 2020*1           icmp-echo   192.168.1.2   RTT=76      OK          4 seconds ago
+21:33:52.739 UTC Mon Jan 6 2020*1           icmp-echo   192.168.1.2   RTT=76      OK          4 seconds ago
+21:33:53.143 UTC Mon Jan 6 2020*1           icmp-echo   192.168.1.2   RTT=76      OK          5 seconds ago
+21:33:53.547 UTC Mon Jan 6 2020*1           icmp-echo   192.168.1.2   RTT=76      OK          5 seconds ago
+21:33:53.951 UTC Mon Jan 6 2020*1           icmp-echo   192.168.1.2   RTT=76      OK          6 seconds ago
+21:33:54.355 UTC Mon Jan 6 2020*1           icmp-echo   192.168.1.2   RTT=76      OK          6 seconds ago
+</pre>
+
+
+'''path-jitter IP SLA'''
+<pre>
+proc SLA {x} {
+ for {set n 2 } {$n<=$x} {incr n 0} {
+    "sh ip sla summary | i $n           path-jitter"
+    "show clock"
+ }
+}
+
+SLA 2
+</pre>
+
+'''path-jitter output:'''
+<pre>
+21:35:30.954 UTC Mon Jan 6 2020*2           path-jitter 192.168.1.2   RTT=78      OK          13 seconds ag
+21:35:31.357 UTC Mon Jan 6 2020*2           path-jitter 192.168.1.2   RTT=78      OK          13 seconds ag
+21:35:31.760 UTC Mon Jan 6 2020*2           path-jitter 192.168.1.2   RTT=78      OK          13 seconds ag
+21:35:32.162 UTC Mon Jan 6 2020*2           path-jitter 192.168.1.2   RTT=78      OK          14 seconds ag
+21:35:32.567 UTC Mon Jan 6 2020*2           path-jitter 192.168.1.2   RTT=78      OK          14 seconds ag
+21:35:32.971 UTC Mon Jan 6 2020*2           path-jitter 192.168.1.2   RTT=78      OK          15 seconds ag
+21:35:33.375 UTC Mon Jan 6 2020*2           path-jitter 192.168.1.2   RTT=78      OK          15 seconds ag
+21:35:33.778 UTC Mon Jan 6 2020*2           path-jitter 192.168.1.2   RTT=78      OK          15 seconds ag
+21:35:34.181 UTC Mon Jan 6 2020*2           path-jitter 192.168.1.2   RTT=78      OK          16 seconds ag
+21:35:34.584 UTC Mon Jan 6 2020*2           path-jitter 192.168.1.2   RTT=78      OK          16 seconds ag
+</pre>
