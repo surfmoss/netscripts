@@ -1,1 +1,1 @@
-nohup & ssh 192.168.2.161 >> SLA1
+nohup & ssh 192.168.1.10 >> SLA1
