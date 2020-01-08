@@ -9,7 +9,7 @@
 
 * type the following command in a Linux directory containing the script. You will be prompted for a password:
 <pre>
-[buenrosm@buenrostro Py_labs]$ python fwverfuncquery.py    
+[mbubu@lnxbox Py_labs]$ python fwoscheck.py    
 Password:
 </pre>
 
@@ -23,7 +23,7 @@ import getpass
 import paramiko
 import re
 
-username = "buenrosm"
+username = "mbubu"
 password = getpass.getpass()
 IPs = ['192.168.62.103', '192.168.133.101', '192.168.61.102', '192.168.20.10']
 
