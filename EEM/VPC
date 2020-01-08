@@ -1,0 +1,82 @@
+* EEM VPC Domain builder
+
+ event manager applet vpc1.0
+
+* Switch 1
+  <pre>
+  action 1.0 cli conf t
+  action 2.0 cli vlan 3000
+  action 3.0 cli name peer_keepalive
+  action 4.0 cli vrf context peer_vrf
+  action 5.0 cli interface vlan 3000
+  action 6.0 cli description peer-keepalive
+  action 7.0 cli no shutdown
+  action 8.0 cli vrf member peer_vrf
+  action 9.0 cli ip address 192.168.0.1/30
+  action 10.0 cli vpc domain 1
+  action 11.0 cli peer-keepalive destination 192.168.0.2 source 192.168.0.1 vrf peer_vrf
+  action 12.0 cli int e1/1
+  action 13.0 cli switchport access vlan 3000
+  action 14.0 cli speed 1000
+  action 15.0 cli no shut
+  action 16.0 cli int po 2
+  action 17.0 cli switchport
+  action 18.0 cli switchport mode trunk
+  action 19.0 cli switchport trunk native vlan 995
+  action 20.0 cli switchport trunk allowed vlan 2-999
+  action 21.0 cli spanning-tree port type network
+  action 22.0 cli vpc peer-link
+  action 22.5 cli no shut
+  action 23.0 cli int e1/2-3
+  action 24.0 cli switchport
+  action 25.0 cli switchport mode trunk
+  action 26.0 cli switchport trunk native vlan 995
+  action 27.0 cli switchport trunk allowed vlan 2-999
+  action 28.0 cli channel-group 2 mode active
+  action 29.0 cli no shutdown
+  </pre>
+
+
+* Switch 2
+  <pre>
+  action 1.0 cli conf t
+  action 2.0 cli vlan 3000
+  action 3.0 cli name peer_keepalive
+  action 4.0 cli vrf context peer_vrf
+  action 5.0 cli interface vlan 3000
+  action 6.0 cli description peer-keepalive
+  action 7.0 cli no shutdown
+  action 8.0 cli vrf member peer_vrf
+  action 9.0 cli ip address 192.168.0.2/30
+  action 10.0 cli vpc domain 1
+  action 11.0 cli peer-keepalive destination 192.168.0.1 source 192.168.0.2 vrf peer_vrf
+  action 12.0 cli int e1/1
+  action 13.0 cli switchport access vlan 3000
+  action 14.0 cli speed 1000
+  action 15.0 cli no shut
+  action 16.0 cli int po 2
+  action 17.0 cli switchport
+  action 18.0 cli switchport mode trunk
+  action 19.0 cli switchport trunk native vlan 995
+  action 20.0 cli switchport trunk allowed vlan 2-999
+  action 21.0 cli spanning-tree port type network
+  action 22.0 cli vpc peer-link
+  action 22.5 cli no shut
+  action 23.0 cli int e1/2-3
+  action 24.0 cli switchport
+  action 25.0 cli switchport mode trunk
+  action 26.0 cli switchport trunk native vlan 995
+  action 27.0 cli switchport trunk allowed vlan 2-999
+  action 28.0 cli channel-group 2 mode active
+  action 29.0 cli no shutdown
+  </pre>
+
+* Build the applet and run the following command on each switch:
+
+ event manager run applet vpc1.0
+
+* a 1024kb limitation on the script leaves descriptions on links off
+* E1/1 description should be peer keepalive
+* E1/2-3 description should be peerlink
+* in po 2 description should be peerlink
+* ensure all ports required for VPC domain are enabled
