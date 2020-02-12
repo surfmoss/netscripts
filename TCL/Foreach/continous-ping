@@ -2,7 +2,7 @@
 * Router ping syntax varies for different Cisco versions
  
 '''Enter tclsh in the ASR1001-HX CLI to enter the TCL shell'''
- foreach subnet { 249 } { for {set i 161} {$i > 0} {incr i 0} { ping 192.172.$subnet.$i re 1 ti 1 } }
+ foreach subnet { 150 } { for {set i 200} {$i > 0} {incr i 0} { ping 192.168.$subnet.$i re 1 ti 1 } }
 
 '''Type run tclsh in the ASR9K CLI to enter the TCL shell'''
- foreach subnet { 1 } { for {set i 1} {$i > 0} {incr i 0} { ping 172.16.$subnet.$i } }
+ foreach subnet { 30 } { for {set i 1} {$i > 0} {incr i 0} { ping 172.16.$subnet.$i } }
