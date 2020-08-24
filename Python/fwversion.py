@@ -102,10 +102,10 @@ sys.exit("ALL Done!")
 * The following OS output is provided by using the Linux grep command:
 <pre>
 ALL Done!
-SecureOS firewall1.fnmoc.navy.mil 8.3.2E136 SW_OPS64_SMP Thu Jun 15 13:17:37 CDT 2017 8.3.2E136-c313a  amd64
-SecureOS firewall2.fnmoc.navy.mil 8.3.2E136 SW_OPS64_SMP Thu Jun 15 13:17:37 CDT 2017 8.3.2E136-c313a  amd64
-SecureOS firewall3.fnmoc.navy.mil 8.3.2E136 SW_OPS64_SMP Thu Jun 15 13:17:37 CDT 2017 8.3.2E136-c313a  amd64
-SecureOS firewall4.fnmoc.navy.mil 8.3.2E136 SW_OPS64_SMP Thu Jun 15 13:17:37 CDT 2017 8.3.2E136-c313a  amd64
+SecureOS firewall1.mil 8.3.2E136 SW_OPS64_SMP Thu Jun 15 13:17:37 CDT 2017 8.3.2E136-c313a  amd64
+SecureOS firewall2.mil 8.3.2E136 SW_OPS64_SMP Thu Jun 15 13:17:37 CDT 2017 8.3.2E136-c313a  amd64
+SecureOS firewall3.mil 8.3.2E136 SW_OPS64_SMP Thu Jun 15 13:17:37 CDT 2017 8.3.2E136-c313a  amd64
+SecureOS firewall4.mil 8.3.2E136 SW_OPS64_SMP Thu Jun 15 13:17:37 CDT 2017 8.3.2E136-c313a  amd64
 </pre>
 
 == Script as a function ==
@@ -153,10 +153,10 @@ sys.exit("ALL Done!")
 * this is your output:
 <pre>
 ALL Done!
-SecureOS firewall1.fnmoc.navy.mil 8.3.2E136 SW_OPS64_SMP Thu Jun 15 13:17:37 CDT 2017 8.3.2E136-c313a  amd64
-SecureOS firewall2.fnmoc.navy.mil 8.3.2E136 SW_OPS64_SMP Thu Jun 15 13:17:37 CDT 2017 8.3.2E136-c313a  amd64
-SecureOS firewall3.fnmoc.navy.mil 8.3.2E136 SW_OPS64_SMP Thu Jun 15 13:17:37 CDT 2017 8.3.2E136-c313a  amd64
-SecureOS firewall4.fnmoc.navy.mil 8.3.2E136 SW_OPS64_SMP Thu Jun 15 13:17:37 CDT 2017 8.3.2E136-c313a  amd64
+SecureOS firewall1.mil 8.3.2E136 SW_OPS64_SMP Thu Jun 15 13:17:37 CDT 2017 8.3.2E136-c313a  amd64
+SecureOS firewall2.mil 8.3.2E136 SW_OPS64_SMP Thu Jun 15 13:17:37 CDT 2017 8.3.2E136-c313a  amd64
+SecureOS firewall3.mil 8.3.2E136 SW_OPS64_SMP Thu Jun 15 13:17:37 CDT 2017 8.3.2E136-c313a  amd64
+SecureOS firewall4.mil 8.3.2E136 SW_OPS64_SMP Thu Jun 15 13:17:37 CDT 2017 8.3.2E136-c313a  amd64
 </pre>
 
 
